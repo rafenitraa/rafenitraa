@@ -1,0 +1,31 @@
+name: Update Profile README
+
+on:
+  schedule:
+    # Tourne tous les lundis à 8h UTC (11h Madagascar)
+    - cron: '0 8 * * 1'
+  workflow_dispatch: # Permet de lancer manuellement
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update last active date
+        run: |
+          DATE=$(date +'%d %B %Y')
+          # Met à jour la date dans le README si la ligne existe
+          if grep -q "Dernière mise à jour" README.md; then
+            sed -i "s/Dernière mise à jour.*/Dernière mise à jour : $DATE/" README.md
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.email "rafenitraa@gmail.com"
+          git config --global user.name "Rafenitra Andriantsoa"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update profile [$(date +'%Y-%m-%d')]"
+          git push
