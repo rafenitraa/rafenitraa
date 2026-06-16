@@ -28,7 +28,7 @@ jobs:
           git config --global user.email "rafenitraa@gmail.com"
           git config --global user.name "Rafenitra Andriantsoa"
 
-      - name: Sync with remote main
+      - name: Sync with remote main before editing
         run: |
           git fetch origin main
           git pull --rebase origin main
@@ -50,7 +50,7 @@ jobs:
 
           git commit -m "chore: daily activity log [$(date +'%Y-%m-%d')]"
 
-      - name: Push changes
+      - name: Sync and push changes
         run: |
           git pull --rebase origin main
           git push origin HEAD:main
