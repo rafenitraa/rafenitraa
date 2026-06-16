@@ -31,7 +31,9 @@ jobs:
         run: |
           git config --global user.email "rafenitraa@gmail.com"
           git config --global user.name "Rafenitra Andriantsoa"
+          git pull --rebase origin main
+          echo "✅ Daily check - $(date +'%Y-%m-%d')" >> activity.log
+          tail -30 activity.log > activity.log.tmp && mv activity.log.tmp activity.log
           git add activity.log
           git diff --staged --quiet || git commit -m "chore: daily activity log [$(date +'%Y-%m-%d')]"
-          git pull --rebase origin main
           git push
